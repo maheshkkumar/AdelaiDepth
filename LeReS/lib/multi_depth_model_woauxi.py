@@ -1,7 +1,9 @@
-from lib import network_auxi as network
-from lib.net_tools import get_func
 import torch
 import torch.nn as nn
+from models.AdelaiDepth.LeReS.lib import network_auxi as network
+from models.Adelaidepth.LeReS.lib.net_tools import get_func
+
+device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
 class RelDepthModel(nn.Module):
     def __init__(self, backbone='resnet50'):
@@ -14,7 +16,7 @@ class RelDepthModel(nn.Module):
 
     def inference(self, rgb):
         with torch.no_grad():
-            input = rgb.cuda()
+            input = rgb.to(device)
             depth = self.depth_model(input)
             pred_depth_out = depth - depth.min() + 0.01
             return pred_depth_out

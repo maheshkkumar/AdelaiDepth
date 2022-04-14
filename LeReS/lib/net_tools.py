@@ -1,7 +1,8 @@
 import importlib
-import torch
 import os
 from collections import OrderedDict
+
+import torch
 
 
 def get_func(func_name):
@@ -24,13 +25,13 @@ def get_func(func_name):
         print('Failed to f1ind function: %s', func_name)
         raise
 
-def load_ckpt(args, depth_model, shift_model, focal_model):
+def load_ckpt(ckpt, depth_model, shift_model, focal_model):
     """
     Load checkpoint.
     """
-    if os.path.isfile(args.load_ckpt):
-        print("loading checkpoint %s" % args.load_ckpt)
-        checkpoint = torch.load(args.load_ckpt)
+    if os.path.isfile(ckpt):
+        print("loading checkpoint %s" % ckpt)
+        checkpoint = torch.load(ckpt)
         if shift_model is not None:
             shift_model.load_state_dict(strip_prefix_if_present(checkpoint['shift_model'], 'module.'),
                                     strict=True)
