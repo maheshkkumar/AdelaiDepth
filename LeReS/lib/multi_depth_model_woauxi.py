@@ -1,8 +1,7 @@
 import torch
 import torch.nn as nn
-
-from ..lib import network_auxi as network
-from .net_tools import get_func
+from models.AdelaiDepth.LeReS.lib import network_auxi as network
+from models.AdelaiDepth.LeReS.lib.net_tools import get_func
 
 device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 

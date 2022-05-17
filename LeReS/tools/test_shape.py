@@ -1,15 +1,19 @@
-from lib.multi_depth_model_woauxi import RelDepthModel
-from lib.net_tools import load_ckpt
-from lib.spvcnn_classsification import SPVCNN_CLASSIFICATION
-import matplotlib.pyplot as plt
-from lib.test_utils import reconstruct_depth
-import torchvision.transforms as transforms
-import cv2
-import os
 import argparse
+import os
+
+import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from lib.test_utils import refine_focal, refine_shift
+import torchvision.transforms as transforms
+from models.AdelaiDepth.LeReS.lib.multi_depth_model_woauxi import RelDepthModel
+from models.AdelaiDepth.LeReS.lib.net_tools import load_ckpt
+from models.AdelaiDepth.LeReS.lib.spvcnn_classsification import \
+    SPVCNN_CLASSIFICATION
+from models.AdelaiDepth.LeReS.lib.test_utils import (reconstruct_depth,
+                                                     refine_focal,
+                                                     refine_shift)
+
 
 def parse_args():
     parser = argparse.ArgumentParser(
