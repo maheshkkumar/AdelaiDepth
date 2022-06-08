@@ -85,6 +85,23 @@ def reconstruct3D_from_depth(rgb, pred_depth, shift_model, focal_model):
 
     return shift_1, predicted_focal_2, depth_scale_1
 
+def recover_focal_length(rgb, pred_depth, focal_model):
+    pred_depth = 1 / pred_depth
+    cam_u0 = rgb.shape[1] / 2.0
+    cam_v0 = rgb.shape[0] / 2.0
+
+    dmax = np.percentile(pred_depth, 98)
+    pred_depth = pred_depth / dmax
+
+    # proposed focal length, FOV is 60', Note that 60~80' are acceptable.
+    proposed_scaled_focal = (rgb.shape[0] // 2 / np.tan((60/2.0)*np.pi/180))
+
+    # recover focal
+    focal_scale_1 = refine_focal(pred_depth, proposed_scaled_focal, focal_model, u0=cam_u0, v0=cam_v0)
+    predicted_focal_1 = proposed_scaled_focal / focal_scale_1.item()
+
+    return predicted_focal_1
+
 if __name__ == '__main__':
 
     args = parse_args()
